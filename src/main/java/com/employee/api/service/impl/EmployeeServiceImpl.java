@@ -42,9 +42,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         return EmployeeMapper.mapToEmployeeDto(savedEmployee);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
-        return null;
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(
+                        getNotFoundExceptionSupplier(
+                                "Employee is not exists with given id : ",
+                                employeeId))
+                ;
+
+        return EmployeeMapper.mapToEmployeeDto(employee);
     }
 
     @Override
