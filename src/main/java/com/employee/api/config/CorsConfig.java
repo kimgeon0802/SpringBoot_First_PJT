@@ -1,4 +1,4 @@
-package com.employee.deploy.config;
+package com.employee.api.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
