@@ -50,6 +50,10 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Transactional(readOnly = true)
     @Override
     public List<DepartmentDto> getAllDepartments() {
+        List<Department> departments = departmentRepository.findAll();
+        // List<Department> => Stream<Department>
+        departments.stream() //Stream<Department>
+                .map(department -> DepartmentMapper.mapToDepartmentDto(department))
         return List.of();
     }
 
