@@ -49,8 +49,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(
                         getNotFoundExceptionSupplier(
                                 "Employee is not exists with given id : ",
-                                employeeId))
-                ;
+                                employeeId)
+                );
 
         return EmployeeMapper.mapToEmployeeDto(employee);
     }
@@ -78,10 +78,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto updateEmployee(Long employeeId, EmployeeDto updatedEmployee) {
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Employee is not exists with given id: " + employeeId,
-                                HttpStatus.NOT_FOUND)
+                .orElseThrow(
+                        getNotFoundExceptionSupplier(
+                                "Employee is not exists with given id : ",
+                                employeeId)
                 );
 
         employee.setFirstName(updatedEmployee.getFirstName());
