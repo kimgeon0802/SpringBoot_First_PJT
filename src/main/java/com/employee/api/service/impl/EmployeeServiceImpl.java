@@ -108,4 +108,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                 );
         employeeRepository.delete(employee);
     }
+
+    @Override
+    public EmployeeDto getEmployeeByEmail(String email) {
+        return employeeRepository.findByEmail(email)
+                //.map(entity -> EmployeeMapper.mapToEmployeeDepartmentDto(entity))
+                .map(EmployeeMapper::mapToEmployeeDepartmentDto)
+                .orElseThrow(
+                        getNotFoundExceptionSupplier("Employee is not exists with given email : ", email)
+                );
+    }
 }
