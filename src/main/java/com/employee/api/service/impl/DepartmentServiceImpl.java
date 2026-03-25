@@ -84,8 +84,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<Department> page = departmentRepository.findAll(pageable);
 
+        //List<Department> => List<DepartmentDto> 로 변환
         List<DepartmentDto> content = page.getContent()
                 .stream()
+                //.map(dept -> DepartmentMapper.mapToDepartmentDto(dept))
                 .map(DepartmentMapper::mapToDepartmentDto)
                 .toList();
 
