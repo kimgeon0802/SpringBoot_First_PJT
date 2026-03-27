@@ -44,13 +44,13 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
-                        // authenticationEntryPoint: 토큰 없이 인증 필요 경로 접근 시 호출 → 401 JSON 반환
+                        // authenticationEntryPoint: 토큰 없이 인증 필요한 경로 접근 시 호출 → 401 JSON 반환
                         // 기본값은 HTML 에러 페이지이므로 REST API용 JSON 응답으로 교체
                         .authenticationEntryPoint((request, response, e) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                             response.getWriter().write(
-                                    "{\"error\":\"Unauthorized\",\"message\":\"" + e.getMessage() + "\"}");
+                                    "{\"error\":\"Unauthorized(인증실패)\",\"message\":\"" + e.getMessage() + "\"}");
                         })
                         // accessDeniedHandler: 인증은 됐으나 권한(ROLE) 부족 시 호출 → 403 JSON 반환
                         // 필터 레벨 AccessDeniedException 처리 (컨트롤러 레벨은 DefaultExceptionAdvice 처리)
@@ -58,7 +58,7 @@ public class SecurityConfig {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                             response.getWriter().write(
-                                    "{\"error\":\"Forbidden\",\"message\":\"" + e.getMessage() + "\"}");
+                                    "{\"error\":\"Forbidden(권한없음)\",\"message\":\"" + e.getMessage() + "\"}");
                         })
                 )
                 // DB 기반 인증 프로바이더 등록
